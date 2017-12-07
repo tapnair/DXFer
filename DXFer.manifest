@@ -1,0 +1,13 @@
+{
+	"autodeskProduct":	"Fusion360",
+	"type":	"addin",
+	"id":	"9e259d98-88df-4371-8d80-5b91e63a8e3c",
+	"author":	"Patrick Rainsberry",
+	"description":	{
+		"":	"Some Extra DXF Things\t"
+	},
+	"version":	"1.0",
+	"runOnStartup":	false,
+	"supportedOS":	"windows|mac",
+	"editEnabled":	true
+}
