@@ -5,6 +5,10 @@ NOTE: This sample is provided "As-is" with no guarantee of performance, reliabil
 
 ![DXFer Cover](./resources/readMeCover.png)
 
+Credit where credit is due!!!
+
+This sample add-in is built upon the [ezdxf library](https://github.com/mozman/ezdxf/blob/master/docs/source/introduction.rst)
+
 # Usage
 Select multiple faces and export a single DXF
 
