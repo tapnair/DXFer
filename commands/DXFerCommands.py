@@ -1,3 +1,6 @@
+import importlib
+import sys
+
 import adsk.core
 import adsk.fusion
 import traceback
@@ -8,55 +11,19 @@ from .. import apper
 from .. import config
 
 
-# def move_sketch(sketch):
+def check_dependency(module_name: str, dependency_name: str):
+    test_dir = os.path.join(config.lib_path, module_name)
+    success = True
+    if not os.path.exists(test_dir):
+        success = apper.Fusion360PipInstaller.installFromList([dependency_name], config.lib_path)
 
-# #Working towards re-orient, but not working
-# b_box = sketch.boundingBox
-#
-# x = b_box.maxPoint.x - b_box.minPoint.x
-# y = b_box.maxPoint.y - b_box.minPoint.y
-#
-# transform_matrix = adsk.core.Matrix3D.create()
-# transform_matrix.translation = adsk.core.Vector3D.create(x, y, 0)
-# collection = adsk.core.ObjectCollection.create()
-#
-# for item in sketch.sketchCurves:
-#     collection.add(item)
-#
-# sketch.move(collection, transform_matrix)
-
-
-# class DXFImportCommand(apper.Fusion360CommandBase):
-#     def on_execute(self, command, inputs, args, input_values):
-#         ao = apper.AppObjects()
-#
-#         ui = ao.ui
-#
-#         file_name = os.path.join(os.path.dirname(__file__), 'test.dxf')
-#
-#         dwg = ezdxf.readfile(file_name)
-#
-#         ui.messageBox('opened   ' + dwg.dxfversion)
-#
-#         blocks = dwg.blocks
-#         model_space = dwg.modelspace()
-#
-#         for block in blocks:
-#             entities = block.query('*')
-#             for entity in entities:
-#                 block.unlink_entity(entity)
-#                 model_space.add_entity(entity)
-#
-#     # The following is a basic sample of a dialog UI
-#     def on_create(self, command, command_inputs):
-#
-#         # Gets necessary application objects
-#         app_objects = get_app_objects()
-#         default_units = app_objects['units_manager'].defaultLengthUnits
+    if not success:
+        raise ImportError(f'Unable to install module {module_name}')
 
 
 @apper.lib_import(config.app_path)
 def add_to_dxf(file_name, dxf_option, target_drawing):
+    check_dependency('ezdxf', 'ezdxf')
     import ezdxf
     from ezdxf.addons import Importer
 
@@ -78,18 +45,21 @@ def add_to_dxf(file_name, dxf_option, target_drawing):
     importer.import_entities(dwg.entities)
 
 
-@apper.lib_import(config.app_path)
+@apper.lib_import(config.lib_path)
 def create_empty_dxf():
+    check_dependency('ezdxf', 'ezdxf')
     import ezdxf
 
     new_dwg = ezdxf.new(dxfversion='AC1015')
     return new_dwg
 
 
-@apper.lib_import(config.app_path)
+@apper.lib_import(config.lib_path)
 def export_pdf(dxf_file):
+    check_dependency('matplotlib', 'ezdxf[draw]')
     import ezdxf
     from ezdxf.addons.drawing import matplotlib
+
     dwg = ezdxf.readfile(dxf_file)
     pdf_file_name = f'{dxf_file[:-4]}.pdf'
     matplotlib.qsave(dwg.modelspace(), pdf_file_name)

@@ -1,5 +1,13 @@
 {
-	"python.autoComplete.extraPaths":	["/Users/rainsbp/Library/Application Support/Autodesk/Autodesk Fusion 360/API/Python/defs"],
-	"python.pythonPath":	"/Users/rainsbp/Library/Application Support/Autodesk/webdeploy/production/1b7a11f5bfe54ff0933e8d22edb9271a12e4377a/Autodesk Fusion 360.app/Contents/Frameworks/Python.framework/Versions/Current/bin/python",
-	"python.linting.pylintEnabled":	false
+	"python.autoComplete.extraPaths":	[
+		"/Users/rainsbp/Library/Application Support/Autodesk/Autodesk Fusion 360/API/Python/defs"
+	],
+	"python.pythonPath":	"/Users/rainsbp/Library/Application Support/Autodesk/webdeploy/production/eebb6799e050f688ebc5a0b6a0ba8228b64e1517/Autodesk Fusion 360.app/Contents/Frameworks/Python.framework/Versions/Current/bin/python",
+	"python.linting.pylintEnabled":	false,
+	"python.analysis.extraPaths":	["/Users/rainsbp/Library/Application Support/Autodesk/Autodesk Fusion 360/API/Python/defs"],
+	"fusion-360-helper.enabled":	true,
+	"fusion-360-helper.python.pythonPath":	"/Users/rainsbp/Library/Application Support/Autodesk/webdeploy/production/eebb6799e050f688ebc5a0b6a0ba8228b64e1517/Autodesk Fusion 360.app/Contents/Frameworks/Python.framework/Versions/Current/bin/python",
+	"fusion-360-helper.python.extraLibs":	[
+		"/Users/rainsbp/Library/Application Support/Autodesk/Autodesk Fusion 360/API/Python/defs"
+	]
 }
