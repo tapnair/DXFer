@@ -19,6 +19,7 @@ def _get_apper(base_dir: str, git) -> bool:
     try:
         p_bar.start()
         if git:
+
             subprocess.call(['git', 'submodule', 'add', 'https://github.com/tapnair/apper'])
             return True
         else:
