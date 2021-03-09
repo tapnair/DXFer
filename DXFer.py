@@ -33,13 +33,13 @@ try:
         from . import utils
         utils.install_apper()
 
+    # Import my commands
     from .commands.DXFerCommands import DXFExportCommand, PDFExportCommand
 
     # Create our addin definition object
     my_addin = apper.FusionApp(config.app_name, config.company_name, False)
     my_addin.root_path = config.app_path
 
-    # General command showing inputs and user interaction
     my_addin.add_command(
         'DXF Export',
         DXFExportCommand,
@@ -57,7 +57,6 @@ try:
         }
     )
 
-    # General command showing inputs and user interaction
     my_addin.add_command(
         'PDF Export',
         PDFExportCommand,
@@ -75,8 +74,7 @@ try:
         }
     )
 
-
-except:
+except Exception as e:
     app = adsk.core.Application.get()
     ui = app.userInterface
     if ui:
@@ -84,7 +82,6 @@ except:
 
 # Set to True to display various useful messages when debugging your app
 debug = False
-
 
 def run(context):
     my_addin.run_app()
