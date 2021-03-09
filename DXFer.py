@@ -23,11 +23,16 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 """
 import adsk.core
 import traceback
+from . import config
 
 
 try:
-    from . import config
-    from .apper import apper
+    try:
+        from .apper import apper
+    except ModuleNotFoundError:
+        from . import utils
+        utils.install_apper()
+
     from .commands.DXFerCommands import DXFExportCommand, PDFExportCommand
 
     # Create our addin definition object

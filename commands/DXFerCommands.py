@@ -7,7 +7,7 @@ import traceback
 
 import os
 
-from .. import apper
+from ..apper import apper
 from .. import config
 
 
@@ -15,13 +15,13 @@ def check_dependency(module_name: str, dependency_name: str):
     test_dir = os.path.join(config.lib_path, module_name)
     success = True
     if not os.path.exists(test_dir):
-        success = apper.Fusion360PipInstaller.installFromList([dependency_name], config.lib_path)
+        success = apper.Fusion360PipInstaller.install_from_list([dependency_name], config.lib_path)
 
     if not success:
         raise ImportError(f'Unable to install module {module_name}')
 
 
-@apper.lib_import(config.app_path)
+@apper.lib_import(config.lib_path)
 def add_to_dxf(file_name, dxf_option, target_drawing):
     check_dependency('ezdxf', 'ezdxf')
     import ezdxf
@@ -262,4 +262,5 @@ class PDFExportCommand(apper.Fusion360CommandBase):
             os.remove(dxf_file)
 
     def on_create(self, command: adsk.core.Command, inputs: adsk.core.CommandInputs):
+
         build_common_inputs(inputs)
