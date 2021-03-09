@@ -1,4 +1,5 @@
 import os
+import subprocess
 import urllib.request
 import zipfile
 
@@ -10,16 +11,20 @@ REPO_URL = 'https://github.com/tapnair/apper/archive/master.zip'
 from . import config
 
 
-def _get_apper(base_dir: str) -> bool:
+def _get_apper(base_dir: str, git) -> bool:
     zip_name = os.path.join(base_dir, f'{REPO}.zip')
     p_bar = ProgressBar()
 
     # Download Apper
     try:
         p_bar.start()
-        urllib.request.urlretrieve(REPO_URL, zip_name)
+        if git:
+            subprocess.call(['git', 'submodule', 'add', 'https://github.com/tapnair/apper'])
+            return True
+        else:
+            urllib.request.urlretrieve(REPO_URL, zip_name)
     except Exception as e:
-        install_error(
+        _install_error(
             f'Failed to connect to download site.  Try manually downloading from:\n'
             f'<a href={REPO_URL}>{REPO_URL}</a>'
         )
@@ -34,7 +39,7 @@ def _get_apper(base_dir: str) -> bool:
         os.remove(zip_name)
 
     except Exception as e:
-        install_error(
+        _install_error(
             f'Failed to unzip or rename downloaded file.  Try manually unzipping from:\n {zip_name}\n'
                f'Make sure the directory is renamed from "apper-master" to "apper"'
         )
@@ -43,7 +48,7 @@ def _get_apper(base_dir: str) -> bool:
     return True
 
 
-def install_error(message):
+def _install_error(message):
     app = adsk.core.Application.get()
     app.userInterface.messageBox(f'Apper installation encountered a problem:\n{message}')
 
@@ -66,11 +71,18 @@ def _confirm_apper():
         return True
 
 
-def install_apper():
+def check_apper(git=False):
+    if os.path.exists(os.path.join(config.app_path, 'apper', 'apper')):
+        return True
+    else:
+        _install_apper(git)
+
+
+def _install_apper(git):
     result_confirm = _confirm_apper()
 
     if result_confirm:
-        result_install = _get_apper(config.app_path)
+        result_install = _get_apper(config.app_path, git)
         if result_install:
             return
         else:
